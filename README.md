@@ -1,6 +1,7 @@
 ## PSR-7 Events implementation
 
 [FIG standart link](https://github.com/php-fig/fig-standards/blob/master/proposed/event-manager.md)
+
 **Some examples:**
 - Security framework that will prevent saving/accessing data when a user doesn't have permission.
 - A Common full page caching system

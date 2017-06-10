@@ -19,13 +19,13 @@ class EventManager implements EventManagerInterface
      */
     public function attach($event, $callback, $priority = 0)
     {
-        if(!is_string($event) 
+        if (!is_string($event) 
         && !is_callable($callback) 
         && !is_integer($priority)) {
             return false;
         }
 
-        if(!array_key_exists($event, $this->events)) {
+        if (!array_key_exists($event, $this->events)) {
             $this->events[$event] = new ListenerQueue;
         }
 
@@ -41,12 +41,11 @@ class EventManager implements EventManagerInterface
      */
     public function detach($event, $callback)
     {
-        if(!is_string($event) && !is_callable($callback)) {
+        if (!is_string($event) && !is_callable($callback)) {
             return false;
         }
 
-        if(array_key_exists($event, $this->events))
-        {
+        if (array_key_exists($event, $this->events)) {
             $this->events[$event]->eject($callback);
         }
 
@@ -61,7 +60,7 @@ class EventManager implements EventManagerInterface
      */
     public function clearListeners($event)
     {
-        if(!is_string($event)) {
+        if (!is_string($event)) {
             return false;
         }
 
@@ -80,23 +79,19 @@ class EventManager implements EventManagerInterface
      */
     public function trigger($event, $target = null, $argv = [])
     {
-        if((
-                !is_string($event) && !is_object($event)
-            ) && (
-                !is_string($target) && !is_object($target)
-            ) && (
-                !is_array($argv) && !is_object($argv)
-            )) {
+        if (!is_string($event) && !is_object($event)
+        && !is_string($target) && !is_object($target)
+        && !is_array($argv) && !is_object($argv)) {
             return false;
         }
 
-        if($event instanceof EventInterface) {
+        if ($event instanceof EventInterface) {
             $event = $event->getName();
         }
 
         $event = $this->events[$event];
 
-        while($event->valid())
+        while ($event->valid())
         {
             call_user_func_array(
                 $event->top(), 

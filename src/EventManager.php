@@ -21,7 +21,7 @@ class EventManager implements EventManagerInterface
         if(!array_key_exists($event, $this->events))
             $this->events[$event] = new ListenerQueue;
 
-        $this->events[$event]->listen($callback, $priority);
+        $this->events[$event]->add($callback, $priority);
     }
 
     /**
@@ -37,7 +37,7 @@ class EventManager implements EventManagerInterface
 
         if(array_key_exists($event, $this->events))
         {
-            $flag = $this->events[$event]->extract($callback);
+            $flag = $this->events[$event]->eject($callback);
         }
 
         return $flag;
@@ -74,7 +74,6 @@ class EventManager implements EventManagerInterface
                 $event->top(), 
                 $argv
             );
-            $event->extract();
         }
     }
 }

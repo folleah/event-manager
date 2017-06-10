@@ -34,13 +34,13 @@ class ListenerQueue
     public function eject(callable $callback)
     {
         $flag = false;
-        foreach($this->listeners as $key => $value)
+        foreach ($this->listeners as $key => $value)
         {
             $finded = in_array($callback, $value, true);
-            if($finded)
+            if ($finded)
             {
                 unset($this->listeners[$key]);
-                $flag =  true;
+                $flag = true;
             }
         }
 
@@ -55,7 +55,7 @@ class ListenerQueue
      */
     public function valid()
     {
-        if(sizeof($this->listeners) == 0)
+        if (sizeof($this->listeners) == 0)
             return false;
 
         return true;
@@ -88,7 +88,7 @@ class ListenerQueue
      */
     private function lsort()
     {
-        uasort($this->listeners, function($a, $b){
+        uasort($this->listeners, function($a, $b) {
             if ($a['priority'] == $b['priority']) {
                 return 0;
             }

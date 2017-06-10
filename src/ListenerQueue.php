@@ -55,8 +55,9 @@ class ListenerQueue
      */
     public function valid()
     {
-        if (sizeof($this->listeners) == 0)
+        if (sizeof($this->listeners) == 0) {
             return false;
+        }
 
         return true;
     }

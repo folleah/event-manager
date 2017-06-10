@@ -11,6 +11,12 @@ class Event implements EventInterface
     private $target;
     private $isPropagationStopped = false;
 
+    /**
+     * @param string $name 
+     * @param array $params
+     * @param object | string $target
+     * @return void
+     */
     public function __construct(
         $name,
         $params = [],

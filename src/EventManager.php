@@ -2,7 +2,8 @@
 
 namespace Event;
 
-use Event\EventManager\EventManagerInterface;
+use Psr\EventManager\EventManagerInterface;
+use Psr\EventManager\EventInterface;
 use Event\ListenerQueue;
 
 class EventManager implements EventManagerInterface
@@ -18,6 +19,11 @@ class EventManager implements EventManagerInterface
      */
     public function attach($event, $callback, $priority = 0)
     {
+        if(!is_string($event) && !is_callable($callback) && !is_integer($priority))
+        {
+            return false;
+        }
+
         if(!array_key_exists($event, $this->events))
             $this->events[$event] = new ListenerQueue;
 
@@ -33,24 +39,32 @@ class EventManager implements EventManagerInterface
      */
     public function detach($event, $callback)
     {
-        $flag = false;
+        if(!is_string($event) && !is_callable($callback))
+        {
+            return false;
+        }
 
         if(array_key_exists($event, $this->events))
         {
-            $flag = $this->events[$event]->eject($callback);
+            $this->events[$event]->eject($callback);
         }
 
-        return $flag;
+        return true;
     }
 
     /**
      * Clear all listeners for a given event
      *
      * @param  string $event
-     * @return void
+     * @return bool true on success false on failure
      */
     public function clearListeners($event)
     {
+        if(!is_string($event))
+        {
+            return false;
+        }
+
         $this->events[$event]->clear();
     }
 
@@ -66,9 +80,22 @@ class EventManager implements EventManagerInterface
      */
     public function trigger($event, $target = null, $argv = [])
     {
-        if($event instanceof Event)
+        if((
+                !is_string($event) && !is_object($event)
+            ) && (
+                !is_string($target) && !is_object($target)
+            ) && (
+                !is_array($argv) && !is_object($argv)
+            ))
+        {
+            return false;
+        }
+
+        if($event instanceof EventInterface)
+        {
             $event = $event->getName();
-        
+        }
+
         $event = $this->events[$event];
 
         while($event->valid())

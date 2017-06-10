@@ -2,7 +2,7 @@
 
 namespace Event;
 
-use Event\EventManager\EventInterface;
+use Psr\EventManager\EventInterface;
 
 class Event implements EventInterface
 {

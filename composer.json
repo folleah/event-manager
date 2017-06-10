@@ -3,7 +3,8 @@
     "name": "folleah/psr7-event-emitter",
     "description": "PSR-7 event-emitter implementation",
     "keywords": ["psr7", "event"],
-    "type": "project",
+    "type": "library",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Andrey Volkov",
@@ -13,7 +14,8 @@
         }
     ],
     "require": {
-        "php": ">=5.5"
+        "php": ">=5.5",
+        "folleah/psr-interfaces": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.7"

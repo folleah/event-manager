@@ -1,4 +1,4 @@
-## PSR-7 Events implementation
+## PSR-7 Events implementation [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Folleah/psr7-event-emitter/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Folleah/psr7-event-emitter/?branch=master)
 
 [FIG standart link](https://github.com/php-fig/fig-standards/blob/master/proposed/event-manager.md)
 

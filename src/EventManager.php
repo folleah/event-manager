@@ -66,6 +66,9 @@ class EventManager implements EventManagerInterface
      */
     public function trigger($event, $target = null, $argv = [])
     {
+        if($event instanceof Event)
+            $event = $event->getName();
+        
         $event = $this->events[$event];
 
         while($event->valid())

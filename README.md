@@ -13,27 +13,30 @@ use Event\Event;
 use Event\EventManager;
 
 $listener1 = function($var) {
-    echo 'Hi, {$var}.<\br>';
+    echo "Hi, {$var}.</br>";
 };
 
 $listener2 = function() {
-    echo 'How are you?';
+    echo "How are you?";
 };
 
 $eventManager = new EventManager;
 $event = new Event('acquaintance');
 
 // Listen this event with priority
-$eventManager->attach($event->getName(), $listener2, 1);
-$eventManager->attach($event->getName(), $listener1, 2);
-/**
- * Or $eventManager->attach('acquaintance', $listener2, 1);
- */
+$eventManager->attach('acquaintance', $listener2, 1);
+$eventManager->attach('acquaintance', $listener1, 2);
 
-// Call event
-$eventManager->trigger($event->getName());
 /**
- * Or $eventManager->trigger('acquaintance');
+ * Call event
+ * 
+ * output:
+ * Hi, John.
+ * How are you?
+ */
+$eventManager->trigger($event, null, ["John"]);
+/**
+ * Or $eventManager->trigger('acquaintance', null, ["Cate"]);
  */
 ```
 

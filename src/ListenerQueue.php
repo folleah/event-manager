@@ -7,9 +7,13 @@ class ListenerQueue
     private $listeners = [];
 
     /**
-     * Add listener to queue
+     * Add listener to queue with priority
+     * 
+     * @param callable $callback
+     * @param int $priority
+     * @return void
      */
-    public function add($callback, $priority)
+    public function add(callable $callback, $priority)
     {
         $this->eject($callback);
 
@@ -24,9 +28,10 @@ class ListenerQueue
     /**
      * Remove listener from listeners
      * 
-     * 
+     * @param callable $callback
+     * @return bool true on success false on failure
      */
-    public function eject($callback)
+    public function eject(callable $callback)
     {
         $flag = false;
         foreach($this->listeners as $key => $value)
@@ -43,16 +48,10 @@ class ListenerQueue
         return $flag;
     }
 
-    public function extract()
-    {
-        if($this->valid())
-            unset($this->listeners[0]);
-
-        $this->lsort();
-    }
-
     /**
-     * Validate listeners heap
+     * Validate listeners queue (is exist)
+     * 
+     * @return bool true on success false on failure
      */
     public function valid()
     {
@@ -64,6 +63,8 @@ class ListenerQueue
 
     /**
      * Clear listener queue
+     * 
+     * @return void
      */
     public function clear()
     {
@@ -71,7 +72,9 @@ class ListenerQueue
     }
 
     /**
-     * Get maximum priority listener
+     * Get maximum priority listener and delete it in queue
+     * 
+     * @return callable - listener callback
      */
     public function top()
     {
@@ -80,6 +83,8 @@ class ListenerQueue
 
     /**
      * Sorting listeners in priority
+     * 
+     * @return void
      */
     function lsort()
     {

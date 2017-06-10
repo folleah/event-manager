@@ -8,10 +8,18 @@ class Event implements EventInterface
 {
     private $name;
     private $params = [];
+    private $target;
+    private $isPropagationStopped = false;
 
-    public function __construct($name = null)
+    public function __construct(
+        $name,
+        $params = [],
+        $target = null
+    )
     {
         $this->name = $name;
+        $this->params = $params;
+        $this->target = $target;
     }
 
     /**
@@ -31,7 +39,7 @@ class Event implements EventInterface
      */
     public function getTarget()
     {
-        var_dump(debug_backtrace());
+        return $this->target;
     }
 
     /**
@@ -74,7 +82,7 @@ class Event implements EventInterface
      */
     public function setTarget($target)
     {
-
+        $this->target = $target;
     }
 
     /**
@@ -95,7 +103,7 @@ class Event implements EventInterface
      */
     public function stopPropagation($flag)
     {
-
+        $this->isPropagationStopped = $flag;
     }
 
     /**
@@ -105,6 +113,6 @@ class Event implements EventInterface
      */
     public function isPropagationStopped()
     {
-
+        return $this->isPropagationStopped;
     }
 }

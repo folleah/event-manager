@@ -15,7 +15,6 @@ class Event implements EventInterface
      * @param string $name 
      * @param array $params
      * @param object | string $target
-     * @return void
      */
     public function __construct(
         $name,

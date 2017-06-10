@@ -86,7 +86,7 @@ class ListenerQueue
      * 
      * @return void
      */
-    function lsort()
+    private function lsort()
     {
         uasort($this->listeners, function($a, $b){
             if ($a['priority'] == $b['priority']) {

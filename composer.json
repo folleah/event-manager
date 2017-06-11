@@ -17,7 +17,7 @@
         "folleah/psr-interfaces": "dev-master"
     },
     "require-dev": {
-        "phpunit/phpunit": "~6.2"
+        "phpunit/phpunit": "~5.7"
     },
     "autoload": {
         "psr-4": {

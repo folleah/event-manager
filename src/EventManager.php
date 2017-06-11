@@ -92,7 +92,7 @@ class EventManager implements EventManagerInterface
         && (is_string($target) || is_object($target))
         && (is_array($argv) || is_object($argv))) {
             if (is_string($event)) {
-                $event = new Event($event);
+                $result = $event = new Event($event);
             }
         }
 

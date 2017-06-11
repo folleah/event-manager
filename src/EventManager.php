@@ -47,7 +47,7 @@ class EventManager implements EventManagerInterface
             return false;
         }
 
-        if (array_key_exists($event, $this->listeners)) {
+        if (array_key_exists($event, $this->listenersHeap)) {
             $this->listenersHeap[$event]->eject($callback);
         }
 
@@ -92,14 +92,14 @@ class EventManager implements EventManagerInterface
         } 
 
         if ($event instanceof EventInterface) {
-            $eventName = $event->getName();
+            $event = $event->getName();
         }
 
         if ($event->isPropagationStopped()) {
             return;
         }
 
-        $listeners = $this->listenersHeap[$eventName]->get();
+        $listeners = $this->listenersHeap[$event]->get();
 
         foreach ($listeners as $listener)
         {

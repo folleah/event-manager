@@ -16,7 +16,7 @@ class EventTestSuite extends TestCase
     {
         $this->eventManager = new EventManager;
         $this->event = new Event('some.event', [], 'someTarget', true);
-        $this->eventListener = function() {
+        $this->eventListener = function () {
             return true;
         };
     }

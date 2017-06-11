@@ -64,8 +64,7 @@ class EventManager implements EventManagerInterface
      */
     public function clearListeners($event)
     {
-        if (is_string($event)) 
-        {
+        if (is_string($event)) {
             $this->listenersHeap[$event] = null;
 
             return true;

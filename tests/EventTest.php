@@ -44,7 +44,8 @@ final class EventTest extends EventTestSuite
 
     public function testSetAndGetEventTarget()
     {
-        $target = (object) function() {};
+        $target = (object) function () {
+        };
 
         $this->event->setTarget($target);
         
@@ -78,6 +79,4 @@ final class EventTest extends EventTestSuite
         $this->expectException(\InvalidArgumentException::class);
         $this->event->setName($invalidName);
     }
-
-
 }

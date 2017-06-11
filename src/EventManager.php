@@ -4,11 +4,13 @@ namespace Event;
 
 use Psr\EventManager\EventManagerInterface;
 use Psr\EventManager\EventInterface;
+use Event\Event;
 use Event\ListenerQueue;
 
 class EventManager implements EventManagerInterface
 {
-    private $events = [];
+    private $listenersHeap = [];
+
     /**
      * Attaches a listener to an event
      *
@@ -25,11 +27,11 @@ class EventManager implements EventManagerInterface
             return false;
         }
 
-        if (!array_key_exists($event, $this->events)) {
-            $this->events[$event] = new ListenerQueue;
+        if (!array_key_exists($event, $this->listenersHeap)) {
+            $this->listenersHeap[$event] = new ListenerQueue;
         }
 
-        $this->events[$event]->add($callback, $priority);
+        $this->listenersHeap[$event]->add($callback, $priority);
     }
 
     /**
@@ -45,8 +47,8 @@ class EventManager implements EventManagerInterface
             return false;
         }
 
-        if (array_key_exists($event, $this->events)) {
-            $this->events[$event]->eject($callback);
+        if (array_key_exists($event, $this->listeners)) {
+            $this->listenersHeap[$event]->eject($callback);
         }
 
         return true;
@@ -64,7 +66,7 @@ class EventManager implements EventManagerInterface
             return false;
         }
 
-        $this->events[$event]->clear();
+        $this->listenersHeap[$event]->clear();
     }
 
     /**
@@ -74,7 +76,7 @@ class EventManager implements EventManagerInterface
      *
      * @param  string|EventInterface $event
      * @param  object|string $target
-     * @param  array|object $argv
+     * @param  array|object $argv - arguments for listener callback
      * @return mixed
      */
     public function trigger($event, $target = null, $argv = [])
@@ -85,16 +87,24 @@ class EventManager implements EventManagerInterface
             return false;
         }
 
+        if (is_string($event)) {
+            $event = new Event($event);
+        } 
+
         if ($event instanceof EventInterface) {
-            $event = $event->getName();
+            $eventName = $event->getName();
         }
 
-        $event = $this->events[$event];
+        if ($event->isPropagationStopped()) {
+            return;
+        }
 
-        while ($event->valid())
+        $listeners = $this->listenersHeap[$eventName]->get();
+
+        foreach ($listeners as $listener)
         {
             call_user_func_array(
-                $event->top(), 
+                $listener['callback'], 
                 $argv
             );
         }

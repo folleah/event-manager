@@ -3,6 +3,7 @@
 namespace Event;
 
 use Psr\EventManager\EventInterface;
+use Exception;
 
 class Event implements EventInterface
 {
@@ -15,16 +16,19 @@ class Event implements EventInterface
      * @param string $name 
      * @param array $params
      * @param object | string $target
+     * @param bool $isPropagationStopped
      */
     public function __construct(
         $name,
         $params = [],
-        $target = null
+        $target = null,
+        $isPropagationStopped = false
     )
     {
-        $this->name = $name;
-        $this->params = $params;
-        $this->target = $target;
+        $this->setName($name);
+        $this->setParams($params);
+        $this->setTarget($target);
+        $this->stopPropagation($isPropagationStopped);
     }
 
     /**
@@ -76,6 +80,10 @@ class Event implements EventInterface
      */
     public function setName($name)
     {
+        if (!$this->validateName($name)) {
+            throw new Exception("Invalid event name format (Event name MUST contain \"A-z\", \"0-9\", \"_\", \".\"", 1);
+        }
+
         $this->name = $name;
     }
 
@@ -105,8 +113,9 @@ class Event implements EventInterface
      * Indicate whether or not to stop propagating this event
      *
      * @param  bool $flag
+     * @return void
      */
-    public function stopPropagation($flag)
+    public function stopPropagation($flag = true)
     {
         $this->isPropagationStopped = $flag;
     }
@@ -119,5 +128,20 @@ class Event implements EventInterface
     public function isPropagationStopped()
     {
         return $this->isPropagationStopped;
+    }
+
+    /**
+     * Validate name with PSR specification
+     * 
+     * @param string $name
+     * @return bool
+     */
+    private function validateName($name)
+    {
+        if (preg_match_all('/[^(A-z0-9_.)]/', $name, $matches, PREG_SET_ORDER, 0)) {
+            return false;
+        }
+
+        return true;
     }
 }

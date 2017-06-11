@@ -26,6 +26,16 @@ class ListenerQueue
     }
 
     /**
+     * Get listeners array
+     * 
+     * @return array
+     */
+    public function get()
+    {
+        return $this->listeners;
+    }
+
+    /**
      * Remove listener from listeners
      * 
      * @param callable $callback
@@ -70,16 +80,6 @@ class ListenerQueue
     public function clear()
     {
         $this->listeners = [];
-    }
-
-    /**
-     * Get maximum priority listener and delete it in queue
-     * 
-     * @return callable - listener callback
-     */
-    public function top()
-    {
-        return array_shift($this->listeners)['callback'];
     }
 
     /**

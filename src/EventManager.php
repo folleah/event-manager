@@ -21,17 +21,19 @@ class EventManager implements EventManagerInterface
      */
     public function attach($event, $callback, $priority = 0)
     {
-        if (!is_string($event)
-        && !is_callable($callback)
-        && !is_integer($priority)) {
-            return false;
+        if (is_string($event)
+        && is_callable($callback)
+        && is_integer($priority)) {
+            if (!array_key_exists($event, $this->listenersHeap)) {
+                $this->listenersHeap[$event] = new ListenerQueue;
+            }
+
+            $this->listenersHeap[$event]->add($callback, $priority);
+
+            return true;
         }
 
-        if (!array_key_exists($event, $this->listenersHeap)) {
-            $this->listenersHeap[$event] = new ListenerQueue;
-        }
-
-        $this->listenersHeap[$event]->add($callback, $priority);
+        return false;
     }
 
     /**
@@ -43,15 +45,15 @@ class EventManager implements EventManagerInterface
      */
     public function detach($event, $callback)
     {
-        if (!is_string($event) && !is_callable($callback)) {
-            return false;
+        if (is_string($event) && is_callable($callback)) {
+            if (array_key_exists($event, $this->listenersHeap)) {
+                $this->listenersHeap[$event]->eject($callback);
+            }
+
+            return true;
         }
 
-        if (array_key_exists($event, $this->listenersHeap)) {
-            $this->listenersHeap[$event]->eject($callback);
-        }
-
-        return true;
+        return false;
     }
 
     /**
@@ -62,11 +64,14 @@ class EventManager implements EventManagerInterface
      */
     public function clearListeners($event)
     {
-        if (!is_string($event)) {
-            return false;
+        if (is_string($event)) 
+        {
+            $this->listenersHeap[$event] = null;
+
+            return true;
         }
 
-        $this->listenersHeap[$event]->clear();
+        return false;
     }
 
     /**
@@ -81,23 +86,21 @@ class EventManager implements EventManagerInterface
      */
     public function trigger($event, $target = null, $argv = [])
     {
-        if (!is_string($event) && !is_object($event)
-        && !is_string($target) && !is_object($target)
-        && !is_array($argv) && !is_object($argv)) {
-            return false;
-        }
+        $result = false;
 
-        if (is_string($event)) {
-            $event = new Event($event);
-        }
-
-        if ($event instanceof EventInterface) {
-            if ($event->isPropagationStopped()) {
-                return;
+        if (is_string($event) || (is_object($event) && $event instanceof EventInterface)
+        && (is_string($target) || is_object($target))
+        && (is_array($argv) || is_object($argv))) {
+            if (is_string($event)) {
+                $event = new Event($event);
             }
-
-            $event = $event->getName();
         }
+
+        if ($event->isPropagationStopped()) {
+            return;
+        }
+
+        $event = $event->getName();
 
         $listeners = $this->listenersHeap[$event]->get();
 
@@ -108,6 +111,23 @@ class EventManager implements EventManagerInterface
             );
         }
 
-        return $event;
+        return $result;
+    }
+
+    /**
+     * Custom method for check event listeners
+     *
+     * @param string $event
+     * @return bool true on success false on failure
+     */
+    public function isExistListeners($event)
+    {
+        if (is_string($event)) {
+            if (is_null($this->listenersHeap[$event])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

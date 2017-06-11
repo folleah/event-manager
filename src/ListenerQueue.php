@@ -13,7 +13,7 @@ class ListenerQueue
      * @param int $priority
      * @return void
      */
-    public function add(callable $callback, $priority)
+    public function add($callback, $priority)
     {
         $this->eject($callback);
 
@@ -41,43 +41,16 @@ class ListenerQueue
      * @param callable $callback
      * @return bool true on success false on failure
      */
-    public function eject(callable $callback)
+    public function eject($callback)
     {
-        $flag = false;
         foreach ($this->listeners as $key => $value) {
             $finded = in_array($callback, $value, true);
             if ($finded) {
                 unset($this->listeners[$key]);
-                $flag = true;
             }
         }
 
         $this->lsort();
-        return $flag;
-    }
-
-    /**
-     * Validate listeners queue (is exist)
-     *
-     * @return bool true on success false on failure
-     */
-    public function valid()
-    {
-        if (sizeof($this->listeners) == 0) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Clear listener queue
-     *
-     * @return void
-     */
-    public function clear()
-    {
-        $this->listeners = [];
     }
 
     /**

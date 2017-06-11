@@ -3,7 +3,7 @@
 namespace Event;
 
 use Psr\EventManager\EventInterface;
-use Exception;
+use InvalidArgumentException;
 
 class Event implements EventInterface
 {
@@ -80,7 +80,7 @@ class Event implements EventInterface
     public function setName($name)
     {
         if (!$this->validateName($name)) {
-            throw new Exception("Invalid event name format (Event name MUST contain \"A-z\", \"0-9\", \"_\", \".\"", 1);
+            throw new InvalidArgumentException("Invalid event name format (Event name MUST contain \"A-z\", \"0-9\", \"_\", \".\"", 1);
         }
 
         $this->name = $name;

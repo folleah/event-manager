@@ -15,6 +15,4 @@ final class EventTest extends TestCase
 
         $this->assertNotEmpty($event);
     }
-
-
 }

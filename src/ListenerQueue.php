@@ -8,7 +8,7 @@ class ListenerQueue
 
     /**
      * Add listener to queue with priority
-     * 
+     *
      * @param callable $callback
      * @param int $priority
      * @return void
@@ -27,7 +27,7 @@ class ListenerQueue
 
     /**
      * Get listeners array
-     * 
+     *
      * @return array
      */
     public function get()
@@ -37,18 +37,16 @@ class ListenerQueue
 
     /**
      * Remove listener from listeners
-     * 
+     *
      * @param callable $callback
      * @return bool true on success false on failure
      */
     public function eject(callable $callback)
     {
         $flag = false;
-        foreach ($this->listeners as $key => $value)
-        {
+        foreach ($this->listeners as $key => $value) {
             $finded = in_array($callback, $value, true);
-            if ($finded)
-            {
+            if ($finded) {
                 unset($this->listeners[$key]);
                 $flag = true;
             }
@@ -60,7 +58,7 @@ class ListenerQueue
 
     /**
      * Validate listeners queue (is exist)
-     * 
+     *
      * @return bool true on success false on failure
      */
     public function valid()
@@ -74,7 +72,7 @@ class ListenerQueue
 
     /**
      * Clear listener queue
-     * 
+     *
      * @return void
      */
     public function clear()
@@ -84,12 +82,12 @@ class ListenerQueue
 
     /**
      * Sorting listeners in priority
-     * 
+     *
      * @return void
      */
     private function lsort()
     {
-        uasort($this->listeners, function($a, $b) {
+        uasort($this->listeners, function ($a, $b) {
             if ($a['priority'] == $b['priority']) {
                 return 0;
             }

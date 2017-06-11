@@ -13,7 +13,7 @@ class Event implements EventInterface
     private $isPropagationStopped = false;
 
     /**
-     * @param string $name 
+     * @param string $name
      * @param array $params
      * @param object | string $target
      * @param bool $isPropagationStopped
@@ -23,8 +23,7 @@ class Event implements EventInterface
         $params = [],
         $target = null,
         $isPropagationStopped = false
-    )
-    {
+    ) {
         $this->setName($name);
         $this->setParams($params);
         $this->setTarget($target);
@@ -132,7 +131,7 @@ class Event implements EventInterface
 
     /**
      * Validate name with PSR specification
-     * 
+     *
      * @param string $name
      * @return bool
      */

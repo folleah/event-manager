@@ -21,8 +21,8 @@ class EventManager implements EventManagerInterface
      */
     public function attach($event, $callback, $priority = 0)
     {
-        if (!is_string($event) 
-        && !is_callable($callback) 
+        if (!is_string($event)
+        && !is_callable($callback)
         && !is_integer($priority)) {
             return false;
         }
@@ -89,7 +89,7 @@ class EventManager implements EventManagerInterface
 
         if (is_string($event)) {
             $event = new Event($event);
-        } 
+        }
 
         if ($event instanceof EventInterface) {
             if ($event->isPropagationStopped()) {
@@ -101,10 +101,9 @@ class EventManager implements EventManagerInterface
 
         $listeners = $this->listenersHeap[$event]->get();
 
-        foreach ($listeners as $listener)
-        {
+        foreach ($listeners as $listener) {
             call_user_func_array(
-                $listener['callback'], 
+                $listener['callback'],
                 $argv
             );
         }

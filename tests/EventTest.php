@@ -9,11 +9,11 @@ final class EventTest extends TestCase
 {
     public function testEventCantCreateNotWithAString()
     {
-        $eventName = 2;
+        $eventName = "test";
 
         $event = new Event($eventName);
 
-        $this->assertEmpty($event);
+        $this->assertNotEmpty($event);
     }
 
 

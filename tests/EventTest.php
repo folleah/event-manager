@@ -3,7 +3,6 @@
 namespace Tests;
 
 use Psr\EventManager\EventInterface;
-use Event\Event;
 use Tests\EventTestSuite;
 
 final class EventTest extends EventTestSuite

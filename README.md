@@ -36,10 +36,10 @@ $eventManager->attach('bye', $onGoodbye);
  * Call created event
  * 
  * output:
- * Hi, John.
+ * Hi, Alice.
  * How are you?
  */
-$eventManager->trigger($event, null, ['Alice']);
+$eventManager->trigger($event, null, ['Alice']); // 'Alice' will be passed as argument to the listener callback
 
 /**
  * Create new event and call it
@@ -50,10 +50,11 @@ $eventManager->trigger($event, null, ['Alice']);
 $newEvent = $eventManager->trigger('bye');
 ```
 
+
 With the `stopPropagation()` method, you can stop calling the remaining listeners
 
 **Event stop propagation example:**
-```
+```php
 $eventManager = new EventManager;
 
 $helloWorld = function() {

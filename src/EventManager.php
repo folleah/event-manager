@@ -92,11 +92,11 @@ class EventManager implements EventManagerInterface
         } 
 
         if ($event instanceof EventInterface) {
-            $event = $event->getName();
-        }
+            if ($event->isPropagationStopped()) {
+                return;
+            }
 
-        if ($event->isPropagationStopped()) {
-            return;
+            $event = $event->getName();
         }
 
         $listeners = $this->listenersHeap[$event]->get();
@@ -108,5 +108,7 @@ class EventManager implements EventManagerInterface
                 $argv
             );
         }
+
+        return $event;
     }
 }

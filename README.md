@@ -12,32 +12,60 @@
 use Event\Event;
 use Event\EventManager;
 
-$listener1 = function($var) {
+$onGreeted = function($var) {
     echo "Hi, {$var}.</br>";
 };
 
-$listener2 = function() {
-    echo "How are you?";
+$onAsked = function() {
+    echo "How are you?</br>";
+};
+
+$onGoodbye = function() {
+    echo "Bye!</br>";
 };
 
 $eventManager = new EventManager;
 $event = new Event('acquaintance');
 
 // Listen this event with priority
-$eventManager->attach('acquaintance', $listener2, 1);
-$eventManager->attach('acquaintance', $listener1, 2);
+$eventManager->attach('acquaintance', $onGreeted, 2);
+$eventManager->attach('acquaintance', $onAsked, 1);
+$eventManager->attach('bye', $onGoodbye);
 
 /**
- * Call event
+ * Call created event
  * 
  * output:
  * Hi, John.
  * How are you?
  */
-$eventManager->trigger($event, null, ["John"]);
+$eventManager->trigger($event, null, ['Alice']);
+
 /**
- * Or $eventManager->trigger('acquaintance', null, ["Cate"]);
+ * Create new event and call it
+ * 
+ * output:
+ * Bye!
  */
+$newEvent = $eventManager->trigger('bye');
+```
+
+With the `stopPropagation()` method, you can stop calling the remaining listeners
+
+**Event stop propagation example:**
+```
+$eventManager = new EventManager;
+
+$helloWorld = function() {
+    echo "Hello world!";
+};
+
+$eventManager->attach('hello.world', $helloWorld);
+
+$event = $eventManager->trigger('hello.world');
+$event->stopPropagation();
+// It will not work
+$event = $eventManager->trigger('hello.world');
 ```
 
 **License: [MIT](https://github.com/Folleah/psr7-event-emitter/blob/master/README.md)**

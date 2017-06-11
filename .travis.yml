@@ -4,9 +4,10 @@ php:
   - '7.0'
 
 before_script:
+  - export PATH="$PATH:$HOME/.composer/vendor/bin"
   - composer global require friendsofphp/php-cs-fixer
   - composer install
 
 script:
   - ./vendor/bin/phpunit
-  - php php-cs-fixer --diff --dry-run -v fix .
+  - php-cs-fixer --diff --dry-run -v fix .

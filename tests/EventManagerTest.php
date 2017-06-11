@@ -2,10 +2,6 @@
 
 namespace Tests;
 
-use Psr\EventManager\EventInterface;
-use Psr\EventManager\EventManagerInterface;
-use Event\Event;
-use Event\EventManager;
 use Tests\EventTestSuite;
 
 final class EventManagerTest extends EventTestSuite

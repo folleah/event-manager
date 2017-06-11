@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\TestCase;
 use Psr\EventManager\EventInterface;
 use Event\Event;
 use Tests\EventTestSuite;
@@ -17,12 +16,6 @@ final class EventTest extends EventTestSuite
         $this->assertObjectHasAttribute('params', $this->event);
         $this->assertObjectHasAttribute('target', $this->event);
         $this->assertObjectHasAttribute('isPropagationStopped', $this->event);
-    }
-
-    public function testCanBadEventObjectCreate()
-    {
-        $this->expectException(\Error::class);
-        $event = new Event(); // missing required argument
     }
 
     public function testSetAndGetEventParam()

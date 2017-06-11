@@ -1,6 +1,6 @@
 ## PSR-7 Events implementation [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Folleah/psr7-event-emitter/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Folleah/psr7-event-emitter/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/Folleah/psr7-event-emitter/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Folleah/psr7-event-emitter/build-status/master) [![Build Status](https://travis-ci.org/Folleah/psr7-event-emitter.svg?branch=master)](https://travis-ci.org/Folleah/psr7-event-emitter)
 
-[FIG standart link](https://github.com/php-fig/fig-standards/blob/master/proposed/event-manager.md)
+[More about functions](https://github.com/php-fig/fig-standards/blob/master/proposed/event-manager.md)
 
 **Some examples:**
 - Security framework that will prevent saving/accessing data when a user doesn't have permission.

@@ -9,5 +9,5 @@ before_script:
   - composer install
 
 script:
-  - ./vendor/bin/phpunit
+  - ./vendor/bin/phpunit --coverage-clover coverage.clover
   - php-cs-fixer --diff --dry-run -v fix .
